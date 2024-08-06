@@ -1,0 +1,257 @@
+<!-- revision.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App contable</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'icono1.png' %}" />
+    <!-- Incluyendo Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Incluyendo Font Awesome para los íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .navbar-custom {
+            background: linear-gradient(135deg, #001f3f, #003366); /* Degradado de azul oscuro */
+            padding: 1.5rem 1rem;
+        }
+        .navbar-brand {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .navbar-brand:hover {
+            text-decoration: none;
+        }
+        .navbar-center {
+            flex-grow: 1;
+            text-align: center;
+        }
+        .navbar-center h1 {
+            color: white;
+            margin: 0;
+        }
+        .navbar-right {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 1rem;
+        }
+        .navbar-right a {
+            color: white;
+            text-decoration: none;
+        }
+        .navbar-right a:hover {
+            text-decoration: none;
+        }
+        .navbar-left {
+            padding: 1rem;
+        }
+        .card-container {
+            display: flex;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .card {
+            width: 100%;
+            max-width: 1200px;
+            border: 1px solid #e3e3e3;
+            border-radius: .75rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-header {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 1rem;
+            font-size: 1.25rem;
+            font-weight: bold;
+            text-align: center;
+            width: 100%;
+        }
+        .card-body {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse; /* Mejora el diseño de las bordes */
+        }
+        .table thead {
+            background-color: #007bff;
+            color: white;
+        }
+        .table th, .table td {
+            padding: 1rem;
+            text-align: center; /* Centrando el contenido */
+            border: 1px solid #dee2e6;
+            vertical-align: middle; /* Alinea verticalmente el contenido */
+        }
+        .table thead th {
+            border-bottom: 2px solid #0056b3;
+            font-weight: bold;
+            background: #0056b3; /* Cambiado para consistencia */
+        }
+        .table tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .table tbody tr:hover {
+            background-color: #e2e6ea;
+        }
+        .table td a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            padding: .5rem 1rem;
+            border-radius: .25rem;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .table td a:hover {
+            text-decoration: underline;
+            background-color: #e9ecef;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            border-radius: .5rem;
+            padding: .75rem 1.25rem;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+        .btn-primary:focus, .btn-primary.focus {
+            box-shadow: 0 0 0 .2rem rgba(38, 143, 255, .5);
+        }
+        .btn-yellow {
+            background-color: #f1c40f;
+            border-color: #f1c40f;
+            color: #fff;
+            border-radius: .5rem;
+            padding: .75rem 1.25rem;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .btn-yellow:hover {
+            background-color: #f39c12;
+            border-color: #e67e22;
+        }
+        .btn-green {
+            background-color: #2ecc71;
+            border-color: #2ecc71;
+            color: #fff;
+            border-radius: .5rem;
+            padding: .75rem 1.25rem;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .btn-green:hover {
+            background-color: #27ae60;
+            border-color: #1e8449;
+        }
+        .card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+        .text-center {
+            text-align: center;
+        }
+        .btn-container {
+            margin-top: 2rem;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid d-flex align-items-center">
+            <!-- Marca a la izquierda -->
+            <a class="navbar-brand me-auto" href="#">App contable</a>
+            
+            <!-- Título en el centro -->
+            <div class="navbar-center">
+                <h1 class="fw-bold">GESTIÓN DE ARCHIVOS DE FIRMA ELECTRÓNICA</h1>
+            </div>
+            
+            <!-- Cerrar sesión a la derecha -->
+            <div class="navbar-right ms-auto">
+                <a href="{% url 'logout' %}" class="text-white text-decoration-none">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+                </a>
+            </div>
+        </div>
+        <!-- Flecha para regresar -->
+        <div class="navbar-left mt-3">
+            <a href="javascript:history.back()" class="text-white" style="text-decoration: none; color: white;">
+                <i class="fas fa-arrow-left"></i> Regresar
+            </a>
+        </div>
+    </nav>
+
+    <div class="card-container">
+        <div class="card">
+            <div class="card-header">
+                Información de Documentos
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Razon Social</th>
+                            <th>Contraseña</th>
+                            <th>Fecha Inicio</th>
+                            <th>Fecha Caducidad</th>
+                            <th>Archivo 1</th>
+                            <th>Archivo 2</th>
+                            <th>Archivo 3</th>
+                            <th>Acciones</th> <!-- Nueva columna de acciones -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for documento in documentos %}
+                        <tr>
+                            <td>{{ documento.id }}</td>
+                            <td>{{ documento.razon_social }}</td>
+                            <td>{{ documento.contraseña }}</td>
+                            <td>{{ documento.fecha_inicio }}</td>
+                            <td>{{ documento.fecha_caducidad }}</td>
+                            <td><a href="{{ documento.archivo1.url }}" class="btn btn-primary btn-sm">Ver Archivo 1</a></td>
+                            <td><a href="{{ documento.archivo2.url }}" class="btn btn-primary btn-sm">Ver Archivo 2</a></td>
+                            <td><a href="{{ documento.archivo3.url }}" class="btn btn-primary btn-sm">Ver Archivo 3</a></td>
+                            <td class="text-center">
+                                <!-- Botón de acción para editar -->
+                                <a href="{% url 'editararchivo' documento.id %}" class="btn btn-green">
+                                    Editar registro
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="9" class="text-center">No se encontraron documentos.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Incluyendo Bootstrap JS y sus dependencias -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+</body>
+</html>

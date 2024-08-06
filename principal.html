@@ -1,0 +1,176 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App contable</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'icono1.png' %}" />
+
+    <!-- Incluyendo Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Incluyendo Font Awesome para los íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .navbar-custom {
+            background-color: #001f3f; /* Azul marino */
+            padding: 1.5rem 1rem; /* Aumentar el padding vertical */
+            position: relative; /* Hacer el navbar contenedor de referencia para posicionamiento absoluto */
+        }
+        .navbar-brand {
+            color: white;
+            text-decoration: none;
+        }
+        .navbar-brand:hover {
+            text-decoration: none;
+        }
+        .navbar-center {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .navbar-text {
+            position: absolute; /* Posiciona el texto absolutamente dentro del contenedor relativo */
+            right: 1rem; /* Ajusta la distancia desde el borde derecho */
+            top: 50%; /* Centra verticalmente */
+            transform: translateY(-50%); /* Ajusta el centro verticalmente */
+            color: white;
+            text-decoration: none;
+        }
+        .navbar-text a {
+            color: white;
+            text-decoration: none;
+        }
+        .navbar-text a:hover {
+            text-decoration: none;
+        }
+        .navbar-custom h1 {
+            color: white;
+        }
+        .welcome-message {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid #dee2e6;
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+        .card-container {
+            padding: 2rem;
+        }
+        .card {
+            border: none;
+            border-radius: .75rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            max-width: 300px; /* Tamaño máximo de la tarjeta */
+            margin: 0 1rem; /* Espacio horizontal entre las tarjetas */
+        }
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+        .card img {
+            width: 100%;
+            height: 150px; /* Altura reducida de la imagen */
+            object-fit: cover;
+            border-top-left-radius: .75rem;
+            border-top-right-radius: .75rem;
+        }
+        .card-body {
+            padding: 1.5rem;
+            text-align: center;
+            background-color: #ffffff;
+            border-bottom-left-radius: .75rem;
+            border-bottom-right-radius: .75rem;
+        }
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #333;
+        }
+        .card a {
+            text-decoration: none;
+            color: inherit;
+        }
+        .card a:hover {
+            text-decoration: none;
+        }
+        .card-wrapper {
+            display: flex;
+            justify-content: center; /* Centra las tarjetas horizontalmente */
+            overflow-x: auto; /* Habilitar desplazamiento horizontal si es necesario */
+            padding: 1rem 0; /* Espacio superior e inferior */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid d-flex">
+            <!-- Marca a la izquierda -->
+            <a class="navbar-brand" href="#">App contable</a>
+    
+            <!-- Título en el centro -->
+            <div class="navbar-center">
+                <h1 class="fw-bold">MENU DE OPCIONES</h1>
+            </div>
+    
+            <!-- Cerrar sesión a la derecha -->
+            <div class="navbar-text">
+                <a href="{% url 'logout' %}">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mensaje de bienvenida justo debajo del navbar -->
+    <div class="welcome-message">
+        Bienvenid@ {{ request.user.username }}
+    </div>
+
+    <!-- Tarjetas en horizontal y centradas -->
+    <div class="container mt-4">
+        <div class="card-wrapper">
+            <div class="card">
+                <a href="{% url 'registro' %}">
+                    <img src="{% static 'registro.png' %}" class="card-img-top" alt="Registro de Clientes">
+                    <div class="card-body">
+                        <h5 class="card-title">REGISTRO DE CLIENTES</h5>
+                    </div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="{% url 'gestion' %}">
+                    <img src="{% static 'gestion.png' %}" class="card-img-top" alt="Gestión de Clientes">
+                    <div class="card-body">
+                        <h5 class="card-title">GESTIÓN DE CLIENTES</h5>
+                    </div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="{% url 'archivo' %}">
+                    <img src="{% static 'archivos.png' %}" class="card-img-top" alt="Gestión de Archivos de Firma Electrónica">
+                    <div class="card-body">
+                        <h5 class="card-title">REGISTRO DE ARCHIVOS DE FIRMA ELECTRÓNICA</h5>
+                    </div>
+                </a>
+            </div>
+            <!-- Nueva tarjeta agregada -->
+            <div class="card">
+                <a href="{% url 'revision' %}">
+                    <img src="{% static 'revision.png' %}" class="card-img-top" alt="Gestión de Archivos de Firma Electrónica">
+                    <div class="card-body">
+                        <h5 class="card-title">GESTIÓN DE ARCHIVOS DE FIRMA ELECTRÓNICA</h5>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Incluyendo Bootstrap JS y sus dependencias -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+</body>
+</html>

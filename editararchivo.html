@@ -1,0 +1,197 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App contable</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'icono1.png' %}" />
+
+    <!-- Incluyendo Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Incluyendo Font Awesome para los íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .navbar-custom {
+            background-color: #001f3f; /* Azul marino */
+            padding: 1.5rem 1rem; /* Aumentar el padding vertical */
+            position: relative;
+        }
+        .navbar-brand {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+        .navbar-brand:hover {
+            text-decoration: none;
+        }
+        .navbar-nav {
+            flex-direction: row;
+        }
+        .navbar-nav .nav-item {
+            margin: 0 15px;
+        }
+        .navbar-center {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .navbar-right {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 1rem;
+        }
+        .navbar-custom h1 {
+            color: white;
+            margin: 0;
+        }
+        .welcome-message {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid #dee2e6;
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+        .navbar-right a {
+            color: white;
+            text-decoration: none;
+        }
+        .navbar-right a:hover {
+            text-decoration: none;
+        }
+        .form-container {
+            margin: 50px auto;
+            padding: 20px;
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            background-color: #ffffff;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-control, .form-control-long {
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid #ced4da;
+        }
+        .btn-cafe {
+            background-color: #6f4f28; /* Color café */
+            color: white; /* Color del texto */
+            border: none; /* Sin borde */
+            padding: 10px 20px; /* Espaciado interior */
+            text-align: center; /* Alineación del texto */
+            text-decoration: none; /* Sin subrayado */
+            display: inline-block; /* Para ajustar el tamaño */
+            font-size: 16px; /* Tamaño del texto */
+            border-radius: 8px; /* Bordes redondeados */
+            transition: background-color 0.3s ease; /* Transición de color */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra */
+        }
+        .btn-cafe:hover {
+            background-color: #5b3a1c; /* Color café más oscuro al pasar el ratón */
+        }
+        .button-group {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn-cancel {
+            background-color: #dc3545; /* Color rojo */
+            color: white; /* Color del texto */
+            border: none; /* Sin borde */
+            padding: 10px 20px; /* Espaciado interior */
+            text-align: center; /* Alineación del texto */
+            text-decoration: none; /* Sin subrayado */
+            display: inline-block; /* Para ajustar el tamaño */
+            font-size: 16px; /* Tamaño del texto */
+            border-radius: 8px; /* Bordes redondeados */
+            transition: background-color 0.3s ease; /* Transición de color */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra */
+        }
+        .btn-cancel:hover {
+            background-color: #c82333; /* Color rojo más oscuro al pasar el ratón */
+        }
+            /* Agrega esta clase para hacer el input más largo */
+    .form-control-long {
+        width: 100%; /* Ocupa todo el ancho del contenedor */
+        max-width: 600px; /* Ajusta el máximo ancho según sea necesario */
+    }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid d-flex flex-column justify-content-between align-items-center">
+            <!-- Marca a la izquierda -->
+            <a class="navbar-brand" href="#">App contable</a>
+    
+            <!-- Título en el centro -->
+            <div class="navbar-center mt-2">
+                <h1 class="fw-bold">EDITAR CONTRIBUYENTE</h1>
+            </div>
+            
+            <!-- Cerrar sesión a la derecha -->
+            <div class="navbar-right mt-2">
+                <span class="navbar-text">
+                    <a href="{% url 'logout' %}">
+                        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+                    </a>
+                </span>
+            </div>
+        </div>
+    </nav>
+    <div class="form-container">
+        <h2 class="text-center mb-4">Formulario de Edición</h2>
+        <form method="post" action="{% url 'editararchivo' documento.id %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="razon_social" class="form-label">Razón Social:</label>
+                <input type="text" id="razon_social" name="razon_social1" class="form-control form-control-long" value="{{ documento.razon_social }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="archivo1" class="form-label">Archivo 1:</label>
+                <input type="file" id="archivo1" name="archivo1" class="form-control">
+                {% if documento.archivo1 %}
+                    <a href="{{ documento.archivo1.url }}" class="btn btn-cafe mt-2">Ver Archivo Actual</a>
+                {% endif %}
+            </div>
+            <div class="mb-3">
+                <label for="archivo2" class="form-label">Archivo 2:</label>
+                <input type="file" id="archivo2" name="archivo2" class="form-control">
+                {% if documento.archivo2 %}
+                    <a href="{{ documento.archivo2.url }}" class="btn btn-cafe mt-2">Ver Archivo Actual</a>
+                {% endif %}
+            </div>
+            <div class="mb-3">
+                <label for="archivo3" class="form-label">Archivo 3:</label>
+                <input type="file" id="archivo3" name="archivo3" class="form-control">
+                {% if documento.archivo3 %}
+                    <a href="{{ documento.archivo3.url }}" class="btn btn-cafe mt-2">Ver Archivo Actual</a>
+                {% endif %}
+            </div>
+            <div class="mb-3">
+                <label for="contraseña" class="form-label">Contraseña:</label>
+                <input type="password" id="contraseña" name="contraseña" class="form-control" value="{{ documento.contraseña }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="fecha_inicio" class="form-label">Fecha de Inicio:</label>
+                <input type="date" id="fecha_inicio" name="fecha_inicio" class="form-control" value="{{ documento.fecha_inicio }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="fecha_caducidad" class="form-label">Fecha de Caducidad:</label>
+                <input type="date" id="fecha_caducidad" name="fecha_caducidad" class="form-control" value="{{ documento.fecha_caducidad }}" required>
+            </div>
+            <div class="text-center">
+                <div class="button-group">
+                    <button type="submit" class="btn btn-cafe">Guardar Cambios</button>
+                    <a href="javascript:history.back()" class="btn btn-cancel">Cancelar</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

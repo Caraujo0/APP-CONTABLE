@@ -1,0 +1,288 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App contable</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'icono1.png' %}" />
+
+    <!-- Incluyendo Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Incluyendo Font Awesome para los íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .navbar-custom {
+            background-color: #001f3f; /* Azul marino */
+            padding: 1.5rem 1rem; /* Aumentar el padding vertical */
+            position: relative;
+        }
+        .navbar-brand {
+            color: white;
+            text-decoration: none;
+        }
+        .navbar-brand:hover {
+            text-decoration: none;
+        }
+        .navbar-nav {
+            flex-direction: row;
+        }
+        .navbar-nav .nav-item {
+            margin: 0 15px;
+        }
+        .navbar-center {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .navbar-right {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 1rem;
+        }
+        .navbar-custom h1 {
+            color: white;
+        }
+        .navbar-center h1 {
+            margin: 0;
+        }
+        .welcome-message {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid #dee2e6;
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+        .navbar-right a {
+            color: white;
+            text-decoration: none;
+        }
+        .navbar-right a:hover {
+            text-decoration: none;
+        }
+        .container {
+            margin-top: 50px; /* Ajustar este valor según el tamaño del navbar */
+        }
+        .card-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            padding: 4rem 2rem 2rem;
+        }
+        .card {
+            width: 60%; /* Hacer la tarjeta más pequeña */
+            margin: 20px auto;
+            border: none;
+            border-radius: .75rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            padding: 1.5rem; /* Ajustar el padding interno */
+        }
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .card-header {
+            background-color: #f8f9fa;
+            color: #000;
+            font-size: 1.5em;
+            text-align: center;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 1rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .form-control {
+            box-sizing: border-box; /* Asegura que el padding esté incluido en el ancho total */
+            padding: .75rem;
+            border-radius: .375rem;
+            width: calc(100% - 2rem); /* Ajusta el ancho para dejar espacio a los lados */
+            margin-right: auto; /* Alinea los inputs al centro */
+            margin-left: auto; /* Alinea los inputs al centro */
+        }
+        .form-control-lg {
+            padding: 1rem;
+            font-size: 1.25rem;
+        }
+        .form-control-long {
+            width: calc(100% - 2rem); /* Ajustar el ancho para usar el espacio disponible */
+        }
+        .btn-primary {
+            background-color: #ff6f00;
+            border-color: #ff6f00;
+            padding: .75rem 1.25rem; /* Tamaño normal */
+            font-size: 1rem; /* Tamaño normal */
+            border-radius: .375rem;
+            display: block;
+            margin: 0 auto; /* Centra el botón */
+        }
+        .btn-primary:hover {
+            background-color: #e65c00;
+            border-color: #e65c00;
+        }
+        .form-footer {
+            display: flex;
+            justify-content: center; /* Centra el contenido */
+            margin-top: 1.5rem;
+        }
+        .btn-brown {
+    background-color: #6f4f28; /* Color café */
+    color: white; /* Texto blanco */
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-brown:hover {
+    background-color: #5e3a1a; /* Café más oscuro para el hover */
+}
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid d-flex flex-column justify-content-between align-items-center">
+            <!-- Marca a la izquierda -->
+            <a class="navbar-brand" href="#" style="color: white;">App contable</a>
+
+            <!-- Título en el centro -->
+            <div class="navbar-center mt-2">
+                <h1 class="fw-bold text-white">REGISTRO DE CLIENTES</h1>
+            </div>
+
+            <!-- Cerrar sesión a la derecha -->
+            <div class="navbar-right mt-2">
+                <span class="navbar-text">
+                    <a href="{% url 'logout' %}" class="text-white text-decoration-none">
+                        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+                    </a>
+                </span>
+            </div>
+        </div>
+
+        <!-- Flecha para regresar -->
+        <div class="navbar-left mt-3">
+            <a href="javascript:history.back()" class="text-white" style="text-decoration: none; color: white;">
+                <i class="fas fa-arrow-left"></i> Regresar
+            </a>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                Datos del Contribuyente
+            </div>
+            <div class="card-body">
+                <form method="post" action="{% url 'registro' %}">
+                    {% csrf_token %}
+                    <div class="form-group mb-4">
+                        <label for="razonSocial">Razón social:</label>
+                        <input type="text" class="form-control form-control-long" id="razonSocial" name="razon_social" placeholder="Ingresa la razón social">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="rfc">RFC:</label>
+                        <input type="text" class="form-control" id="rfc" name="rfc" placeholder="Ingresa el RFC">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="codigoPostal">Código Postal:</label>
+                        <input type="text" class="form-control" id="codigoPostal" name="codigo_postal" placeholder="Ingresa el código postal">
+                        <small id="codigoPostalWarning" class="form-text text-danger" style="display:none;">El código postal solo puede contener números.</small>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="tipoPersona">Tipo de persona:</label>
+                        <select class="form-control" id="tipoPersona" name="tipo_persona">
+                            <option value="" disabled selected>Seleccione una opción</option>
+                            <option value="1">PERSONA FÍSICA</option>
+                            <option value="2">PERSONA MORAL</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="regimenFiscal">Régimen fiscal:</label>
+                        <select class="form-control" id="regimenFiscal" name="regimen_fiscal">
+                            <option value="" disabled selected>Seleccione una opción</option>
+                            <option value="1">SUELDOS Y SALARIOS E INGRESOS ASIMILADOS A SALARIOS</option>
+                            <option value="2">ARRENDAMIENTO</option>
+                            <option value="3">RÉGIMEN DE ENAJENACIÓN O ADQUISICIÓN DE BIENES</option>
+                            <option value="4">DEMÁS INGRESOS</option>
+                            <option value="5">RESIDENTES EN EL EXTRANJERO SIN ESTABLECIMIENTO PERMANENTE EN MÉXICO</option>
+                            <option value="6">INGRESOS POR DIVIDENDOS O UTILIDADES</option>
+                            <option value="7">PERSONAS FÍSICAS CON ACTIVIDADES EMPRESARIALES Y PROFESIONALES</option>
+                            <option value="8">INGRESOS POR INTERESES</option>
+                            <option value="9">RÉGIMEN DE LOS INGRESOS POR OBTENCIÓN DE PREMIOS</option>
+                            <option value="10">SIN OBLIGACIONES FISCALES</option>
+                            <option value="11">INCORPORACIÓN FISCAL</option>
+                            <option value="12">RÉGIMEN DE LAS ACTIVIDADES EMPRESARIALES CON INGRESOS A TRAVÉS DE PLATAFORMAS TECNOLÓGICAS</option>
+                            <option value="13">RÉGIMEN SIMPLIFICADO DE CONFIANZA</option>
+                            <option value="14">GENERAL DE LEY DE PERSONAS MORALES</option>
+                            <option value="15">RÉGIMEN DE PERSONAS MORALES CON FINES NO LUCRATIVOS</option>
+                            <option value="16">CONSOLIDACIÓN</option>
+                            <option value="17">SOCIEDADES COOPERATIVAS DE PRODUCCIÓN QUE OPTAN POR DIFERIR SUS INGRESOS</option>
+                            <option value="18">ACTIVIDADES AGRÍCOLAS, GANADERAS, SILVÍCOLAS Y PESQUERAS</option>
+                            <option value="19">COORDINADOS</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="contrasenaFirmaElectronica">Contraseña de la firma electrónica:</label>
+                        <input type="password" class="form-control form-control-long" id="contrasenaFirmaElectronica" name="contraseña_firma" placeholder="Ingresa la contraseña de la firma electrónica">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="contrasenaPortalIMSS">Contraseña portal IMSS:</label>
+                        <input type="password" class="form-control form-control-long" id="contrasenaPortalIMSS" name="contraseña_imss" placeholder="Ingresa la contraseña del portal IMSS">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="contrasenaPortalInfonavit">Contraseña portal Infonavit:</label>
+                        <input type="password" class="form-control form-control-long" id="contrasenaPortalInfonavit" name="contraseña_infonavit" placeholder="Ingresa la contraseña del portal Infonavit">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="CorreoElectronico">Correo electrónico de portal Empresarial:</label>
+                        <input type="email" class="form-control form-control-long" id="CorreoElectronico" name="correo_electronico" placeholder="Ingresa el correo electrónico">
+                    </div>
+                    <div class="form-footer">
+                        <button type="submit" class="btn btn-brown">Enviar registro</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Incluyendo Bootstrap JS y sus dependencias -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Validar que el campo de código postal solo acepte números
+            const codigoPostalInput = document.getElementById('codigoPostal');
+            const codigoPostalWarning = document.getElementById('codigoPostalWarning');
+            
+            codigoPostalInput.addEventListener('input', function () {
+                const nonNumeric = /\D/;
+                if (nonNumeric.test(this.value)) {
+                    codigoPostalWarning.style.display = 'block';
+                    this.value = this.value.replace(nonNumeric, '');
+                } else {
+                    codigoPostalWarning.style.display = 'none';
+                }
+            });
+
+            // Confirmar antes de enviar el formulario
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function (e) {
+                const isConfirmed = confirm('¿Estás seguro de que deseas enviar la información?');
+                if (!isConfirmed) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+

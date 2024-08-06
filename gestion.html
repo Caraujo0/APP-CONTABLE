@@ -1,0 +1,211 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App contable</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'icono1.png' %}" />
+
+    <!-- Incluyendo Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Incluyendo Font Awesome para los íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .navbar-custom {
+            background-color: #001f3f; /* Azul marino */
+            padding: 1.5rem 1rem; /* Aumentar el padding vertical */
+            position: relative;
+        }
+        .navbar-brand {
+            color: white;
+            text-decoration: none;
+        }
+        .navbar-brand:hover {
+            text-decoration: none;
+        }
+        .navbar-nav {
+            flex-direction: row;
+        }
+        .navbar-nav .nav-item {
+            margin: 0 15px;
+        }
+        .navbar-center {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .navbar-right {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 1rem;
+        }
+        .navbar-custom h1 {
+            color: white;
+        }
+        .navbar-center h1 {
+            margin: 0;
+        }
+        .welcome-message {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid #dee2e6;
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+        .navbar-right a {
+            color: white;
+            text-decoration: none;
+        }
+        .navbar-right a:hover {
+            text-decoration: none;
+        }
+        .table-container {
+            margin: 50px auto;
+            padding: 20px;
+            width: 100%;
+            max-width: 1200px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            background-color: #fff;
+            overflow-x: auto; /* Habilita desplazamiento horizontal si es necesario */
+        }
+        .table {
+            width: 100%;
+            margin-bottom: 0;
+            table-layout: fixed; /* Establece un ancho fijo para las columnas */
+        }
+        th, td {
+            text-align: center;
+            vertical-align: middle;
+            padding: 12px;
+            word-wrap: break-word; /* Permite el ajuste de palabras largas */
+            font-size: 0.85rem; /* Tamaño de fuente más pequeño */
+        }
+        th {
+            background-color: #343a40;
+            color: white;
+            font-weight: bold;
+        }
+        tbody tr:nth-child(odd) {
+            background-color: #f2f2f2;
+        }
+        tbody tr:hover {
+            background-color: #e9ecef;
+        }
+        .btn-primary, .btn-secondary {
+            padding: 5px 10px;
+            font-size: 0.9rem;
+        }
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .btn-cafe {
+            background-color: #6f4f28; /* Color café */
+            color: white; /* Color del texto */
+            border: none; /* Sin borde */
+            padding: 8px 16px; /* Espaciado interior */
+            text-align: center; /* Alineación del texto */
+            text-decoration: none; /* Sin subrayado */
+            display: inline-block; /* Para ajustar el tamaño */
+            font-size: 14px; /* Tamaño del texto */
+            border-radius: 4px; /* Bordes redondeados */
+            transition: background-color 0.3s ease; /* Transición de color */
+        }
+        .btn-cafe:hover {
+            background-color: #5b3a1c; /* Color café más oscuro al pasar el ratón */
+        }
+        .btn-regresar {
+    color: #ffffff; /* Color texto blanco */
+    border: none; /* Sin borde */
+    font-size: 14px; /* Tamaño del texto */
+    padding: 8px 16px; /* Espaciado interior */
+    text-decoration: none; /* Sin subrayado */
+}
+
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid d-flex flex-column justify-content-between align-items-center">
+            <!-- Marca a la izquierda -->
+            <a class="navbar-brand" href="#">App contable</a>
+    
+            <!-- Título en el centro -->
+            <div class="navbar-center mt-2">
+                <h1 class="fw-bold">GESTIÓN DE CONTRIBUYENTES</h1>
+            </div>
+            
+            <!-- Cerrar sesión a la derecha -->
+            <div class="navbar-right mt-2">
+                <span class="navbar-text">
+                    <a href="{% url 'logout' %}" class="text-white text-decoration-none">
+                        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+                    </a>
+                </span>
+            </div>
+    
+        <!-- Flecha para regresar -->
+        <div class="navbar-left mt-3">
+            <a href="javascript:history.back()" class="btn btn-regresar">
+                <i class="fas fa-arrow-left"></i> Regresar
+            </a>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <div class="container">
+        <div class="table-container">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Razón Social</th>
+                        <th>RFC</th>
+                        <th>Código Postal</th>
+                        <th>Tipo de Persona</th>
+                        <th>Régimen Fiscal</th>
+                        <th>Contraseña de firma electrónica</th>
+                        <th>Contraseña IMSS</th>
+                        <th>Contraseña Infonavit</th>
+                        <th>Correo Portal Empresarial</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for contribuyente in Contribuyentes %}
+                    <tr>
+                        <td>{{ contribuyente.id }}</td>
+                        <td>{{ contribuyente.RazonSocial }}</td>
+                        <td>{{ contribuyente.RFC }}</td>
+                        <td>{{ contribuyente.CodigoPostal }}</td>
+                        <td>{{ contribuyente.get_TipoPersona_display }}</td>
+                        <td>{{ contribuyente.get_RegimenFiscal_display }}</td>
+                        <td>{{ contribuyente.ContraseñaFirma }}</td>
+                        <td>{{ contribuyente.ContraseñaImss }}</td>
+                        <td>{{ contribuyente.ContraseñaInfonavit }}</td>
+                        <td>{{ contribuyente.correo_electronico }}</td>
+                        <td class="btn-group">
+                            <a href="{% url 'editar' contribuyente.id %}" class="btn btn-cafe">Editar</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="11" class="text-center">No hay datos disponibles</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Incluyendo Bootstrap JS y sus dependencias -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+</body>
+</html>

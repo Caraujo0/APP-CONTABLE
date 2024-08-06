@@ -1,0 +1,200 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App contable</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'icono1.png' %}" />
+
+    <!-- Incluyendo Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Incluyendo Font Awesome para los íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .navbar-custom {
+            background-color: #001f3f; /* Azul marino */
+            padding: 1.5rem 1rem; /* Aumentar el padding vertical */
+            position: relative;
+        }
+        .navbar-brand {
+            color: white;
+            text-decoration: none;
+        }
+        .navbar-brand:hover {
+            text-decoration: none;
+        }
+        .navbar-nav {
+            flex-direction: row;
+        }
+        .navbar-nav .nav-item {
+            margin: 0 15px;
+        }
+        .navbar-center {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .navbar-right {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 1rem;
+        }
+        .navbar-custom h1 {
+            color: white;
+        }
+        .navbar-center h1 {
+            margin: 0;
+        }
+        .welcome-message {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid #dee2e6;
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+        .navbar-right a {
+            color: white;
+            text-decoration: none;
+        }
+        .navbar-right a:hover {
+            text-decoration: none;
+        }
+        .form-container {
+            margin: 50px auto;
+            padding: 20px;
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            background-color: #fff;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-control, .form-control-long {
+            border-radius: 5px;
+            padding: 10px;
+        }
+        .btn-cafe {
+            background-color: #6f4f28; /* Color café */
+            color: white; /* Color del texto */
+            border: none; /* Sin borde */
+            padding: 8px 16px; /* Espaciado interior */
+            text-align: center; /* Alineación del texto */
+            text-decoration: none; /* Sin subrayado */
+            display: inline-block; /* Para ajustar el tamaño */
+            font-size: 14px; /* Tamaño del texto */
+            border-radius: 4px; /* Bordes redondeados */
+            transition: background-color 0.3s ease; /* Transición de color */
+        }
+        .btn-cafe:hover {
+            background-color: #5b3a1c; /* Color café más oscuro al pasar el ratón */
+        }
+        .button-group {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid d-flex flex-column justify-content-between align-items-center">
+            <!-- Marca a la izquierda -->
+            <a class="navbar-brand" href="#" style="color: white;">App contable</a>
+    
+            <!-- Título en el centro -->
+            <div class="navbar-center mt-2">
+                <h1 class="fw-bold text-white">EDITAR CONTRIBUYENTE</h1>
+            </div>
+            
+            <!-- Cerrar sesión a la derecha -->
+            <div class="navbar-right mt-2">
+                <span class="navbar-text">
+                    <a href="{% url 'logout' %}" class="text-white text-decoration-none">
+                        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+                    </a>
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="form-container">
+        <form method="post" action="{% url 'editar' contribuyente.id %}">
+            {% csrf_token %}
+            <div class="form-group mb-4">
+                <label for="razonSocial">Razón social:</label>
+                <input type="text" class="form-control form-control-long" id="razonSocial" name="razon_social" value="{{ contribuyente.RazonSocial }}" placeholder="Ingresa la razón social" readonly>
+            </div>
+            <div class="form-group mb-3">
+                <label for="rfc">RFC:</label>
+                <input type="text" class="form-control" id="rfc" name="rfc" value="{{ contribuyente.RFC }}" placeholder="Ingresa el RFC" readonly>
+            </div>
+            <div class="form-group mb-4">
+                <label for="codigoPostal">Código Postal:</label>
+                <input type="text" class="form-control" id="codigoPostal" name="codigo_postal" value="{{ contribuyente.CodigoPostal }}" placeholder="Ingresa el código postal">
+                <small id="codigoPostalWarning" class="form-text text-danger" style="display:none;">El código postal solo puede contener números.</small>
+            </div>
+            <div class="form-group mb-3">
+                <label for="tipoPersona">Tipo de persona:</label>
+                <select class="form-control" id="tipoPersona" name="tipo_persona">
+                    <option value="" disabled {% if not contribuyente.TipoPersona %}selected{% endif %}>Seleccione una opción</option>
+                    <option value="1" {% if contribuyente.TipoPersona == '1' %}selected{% endif %}>PERSONA FÍSICA</option>
+                    <option value="2" {% if contribuyente.TipoPersona == '2' %}selected{% endif %}>PERSONA MORAL</option>
+                </select>
+            </div>
+            <div class="form-group mb-3">
+                <label for="regimenFiscal">Régimen fiscal:</label>
+                <select class="form-control" id="regimenFiscal" name="regimen_fiscal">
+                    <option value="" disabled {% if not contribuyente.RegimenFiscal %}selected{% endif %}>Seleccione una opción</option>
+                    <option value="1" {% if contribuyente.RegimenFiscal == '1' %}selected{% endif %}>SUELDOS Y SALARIOS E INGRESOS ASIMILADOS A SALARIOS</option>
+                    <option value="2" {% if contribuyente.RegimenFiscal == '2' %}selected{% endif %}>ARRENDAMIENTO</option>
+                    <option value="3" {% if contribuyente.RegimenFiscal == '3' %}selected{% endif %}>RÉGIMEN DE ENAJENACIÓN O ADQUISICIÓN DE BIENES</option>
+                    <option value="4" {% if contribuyente.RegimenFiscal == '4' %}selected{% endif %}>DEMÁS INGRESOS</option>
+                    <option value="5" {% if contribuyente.RegimenFiscal == '5' %}selected{% endif %}>RESIDENTES EN EL EXTRANJERO SIN ESTABLECIMIENTO PERMANENTE EN MÉXICO</option>
+                    <option value="6" {% if contribuyente.RegimenFiscal == '6' %}selected{% endif %}>INGRESOS POR DIVIDENDOS O UTILIDADES</option>
+                    <option value="7" {% if contribuyente.RegimenFiscal == '7' %}selected{% endif %}>PERSONAS FÍSICAS CON ACTIVIDADES EMPRESARIALES Y PROFESIONALES</option>
+                    <option value="8" {% if contribuyente.RegimenFiscal == '8' %}selected{% endif %}>INGRESOS POR INTERESES</option>
+                    <option value="9" {% if contribuyente.RegimenFiscal == '9' %}selected{% endif %}>RÉGIMEN DE LOS INGRESOS POR OBTENCIÓN DE PREMIOS</option>
+                    <option value="10" {% if contribuyente.RegimenFiscal == '10' %}selected{% endif %}>SIN OBLIGACIONES FISCALES</option>
+                    <option value="11" {% if contribuyente.RegimenFiscal == '11' %}selected{% endif %}>INCORPORACIÓN FISCAL</option>
+                    <option value="12" {% if contribuyente.RegimenFiscal == '12' %}selected{% endif %}>RÉGIMEN DE LAS ACTIVIDADES EMPRESARIALES CON INGRESOS A TRAVÉS DE PLATAFORMAS TECNOLÓGICAS</option>
+                    <option value="13" {% if contribuyente.RegimenFiscal == '13' %}selected{% endif %}>RÉGIMEN SIMPLIFICADO DE CONFIANZA</option>
+                    <option value="14" {% if contribuyente.RegimenFiscal == '14' %}selected{% endif %}>GENERAL DE LEY DE PERSONAS MORALES</option>
+                    <option value="15" {% if contribuyente.RegimenFiscal == '15' %}selected{% endif %}>RÉGIMEN DE PERSONAS MORALES CON FINES NO LUCRATIVOS</option>
+                    <option value="16" {% if contribuyente.RegimenFiscal == '16' %}selected{% endif %}>CONSOLIDACIÓN</option>
+                    <option value="17" {% if contribuyente.RegimenFiscal == '17' %}selected{% endif %}>SOCIEDADES COOPERATIVAS DE PRODUCCIÓN QUE OPTAN POR DIFERIR SUS INGRESOS</option>
+                    <option value="18" {% if contribuyente.RegimenFiscal == '18' %}selected{% endif %}>ACTIVIDADES AGRÍCOLAS, GANADERAS, SILVÍCOLAS Y PESQUERAS</option>
+                    <option value="19" {% if contribuyente.RegimenFiscal == '19' %}selected{% endif %}>COORDINADOS</option>
+                </select>
+            </div>
+            <div class="form-group mb-3">
+                <label for="contrasenaFirmaElectronica">Contraseña de la firma electrónica:</label>
+                <input type="password" class="form-control form-control-long" id="contrasenaFirmaElectronica" name="contraseña_firma" value="{{ contribuyente.ContraseñaFirma }}" placeholder="Ingresa la contraseña de la firma electrónica">
+            </div>
+            <div class="form-group mb-3">
+                <label for="contrasenaPortalIMSS">Contraseña portal IMSS:</label>
+                <input type="password" class="form-control form-control-long" id="contrasenaPortalIMSS" name="contraseña_imss" value="{{ contribuyente.ContraseñaImss }}" placeholder="Ingresa la contraseña del portal IMSS">
+            </div>
+            <div class="form-group mb-3">
+                <label for="contrasenaPortalInfonavit">Contraseña portal Infonavit:</label>
+                <input type="password" class="form-control form-control-long" id="contrasenaPortalInfonavit" name="contraseña_infonavit" value="{{ contribuyente.ContraseñaInfonavit }}" placeholder="Ingresa la contraseña del portal Infonavit">
+            </div>
+            <div class="form-group mb-3">
+                <label for="CorreoElectronico">Correo electrónico de portal Empresarial:</label>
+                <input type="email" class="form-control form-control-long" id="CorreoElectronico" name="correo_electronico" value="{{ contribuyente.correo_electronico }}" placeholder="Ingresa el correo electrónico">
+            </div>
+            <div class="button-group">
+                <button type="submit" class="btn btn-cafe">Guardar cambios</button>
+                <a href="javascript:history.back()" class="btn btn-cafe">Cancelar</a>
+            </div>
+        </form>
+    </div>
+    
+    
+    
+</body>
+</html>
